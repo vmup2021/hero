@@ -13,8 +13,7 @@ import java.io.IOException;
 public class Game {
 
     private Screen screen;
-    private int x = 10;
-    private int y = 10;
+    Hero hero = new Hero(10,10);
 
     Game() throws IOException {
         TerminalSize terminalSize = new TerminalSize(40,20);
@@ -25,21 +24,23 @@ public class Game {
         screen.setCursorPosition(null);
         screen.startScreen();
         screen.doResizeIfNecessary();
-
     }
     private void draw() throws IOException {
         screen.clear();
-        screen.setCharacter(x,y, TextCharacter.fromCharacter('X')[0]);
+        hero.draw(screen);
         screen.refresh();
+    }
+    private void moveHero(Position position){
+        hero.setPosition(position);
     }
     private void processKey(KeyStroke key){
 
         switch(key.getKeyType()){
-            case ArrowLeft : --x; break;
-            case ArrowRight: ++x; break;
-            case ArrowUp:  --y; break;
-            case ArrowDown: ++y; break;
-        }
+            case ArrowLeft : moveHero(hero.moveLeft()) ; break;
+            case ArrowRight: moveHero(hero.moveRight()); break;
+            case ArrowUp:  moveHero(hero.moveUp()); break;
+            case ArrowDown: moveHero(hero.moveDown()); break;
+        }/*Os methods precisam ser publicos*/
     }
     public void run() throws IOException {
         while(true) {
