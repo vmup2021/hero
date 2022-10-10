@@ -15,17 +15,16 @@ import java.io.IOException;
 
 public class Game {
     private Screen screen;
-    Arena arena = new Arena(50,50);
+    Arena arena = new Arena(30,50);
 
     Game() throws IOException {
-        TerminalSize terminalSize = new TerminalSize(40,20);
+        TerminalSize terminalSize = new TerminalSize(50,30);
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(terminalSize);
         Terminal terminal = terminalFactory.createTerminal();
 
         screen = new TerminalScreen(terminal);
         screen.setCursorPosition(null);
         screen.startScreen();
-        screen.doResizeIfNecessary();
     }
     private void draw() throws IOException {
         screen.clear();
