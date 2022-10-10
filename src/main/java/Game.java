@@ -1,5 +1,8 @@
+import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
@@ -11,9 +14,8 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import java.io.IOException;
 
 public class Game {
-
     private Screen screen;
-    Hero hero = new Hero(10,10);
+    Arena arena = new Arena(50,50);
 
     Game() throws IOException {
         TerminalSize terminalSize = new TerminalSize(40,20);
@@ -27,20 +29,11 @@ public class Game {
     }
     private void draw() throws IOException {
         screen.clear();
-        hero.draw(screen);
+        arena.draw(screen.newTextGraphics());
         screen.refresh();
     }
-    private void moveHero(Position position){
-        hero.setPosition(position);
-    }
     private void processKey(KeyStroke key){
-
-        switch(key.getKeyType()){
-            case ArrowLeft : moveHero(hero.moveLeft()) ; break;
-            case ArrowRight: moveHero(hero.moveRight()); break;
-            case ArrowUp:  moveHero(hero.moveUp()); break;
-            case ArrowDown: moveHero(hero.moveDown()); break;
-        }/*Os methods precisam ser publicos*/
+        arena.processKey(key);
     }
     public void run() throws IOException {
         while(true) {
